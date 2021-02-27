@@ -1,0 +1,87 @@
+start           : instruction+
+instruction     : subplot_assign
+                | plot_assign
+
+subplot_assign  : "subplot" NAME "=" subplot_params
+plot_assign     : "plot" NAME "=" plot_params
+
+subplot_params  : "{" subplot_param ("," subplot_param)* "}"
+subplot_param   : types
+                | x_axis
+                | y_axis
+                | plot_styles
+
+plot_params     : "{" plot_param ("," plot_param)* "}"
+plot_param      : types
+                | x_axis
+                | y_axis
+                | plot_styles
+                | legend
+                | config
+                | subplots
+
+types           : "type" "=" type
+type            : "simple"  -> simple
+                | "bar"     -> bar
+                | "pie"     -> pie
+                | "stack"   -> stack
+
+x_axis          : "x" "=" array
+y_axis          : "y" "=" array
+
+plot_styles     : "style" "=" "{" plot_style ("," plot_style)* "}"
+plot_style      : theme
+                | color
+                | line_style
+                | marker
+                | line_width
+                | label
+theme           : "theme" ":" STRING
+color           : "color" ":" color_enum
+line_style      : "line_style" ":" STRING
+marker          : "marker" ":" STRING
+line_width      : "line_width" ":" number
+label           : "label" ":" STRING
+
+legend          : "legend" "=" "{" legend_param ("," legend_param)* "}"
+legend_param    : x_label
+                | y_label
+                | title
+                | loc
+                | shadow
+x_label         : "x" ":" STRING
+y_label         : "y" ":" STRING
+title           : "title" ":" STRING
+loc             : "loc" ":" STRING
+shadow          : "shadow" ":" bool
+
+config          : "config" "=" "{" config_param ("," config_param)* "}"
+config_param    : grid
+                | tight_layout
+                | save
+tight_layout    : "tight_layout" ":" bool
+grid            : "grid" ":" bool
+save            : "save" ":" STRING
+
+subplots        : "subplots" "=" "{" NAME ("," NAME)* "}"
+
+color_enum      : "red"         -> red
+                | "green"       -> green
+                | "blue"        -> blue
+
+array  : "[" [number ("," number)*] "]"
+number: SIGNED_NUMBER
+
+bool : "false"                  -> false
+     | "true"                   -> true
+     | "netocina"
+
+STRING : ESCAPED_STRING
+
+%import common.ESCAPED_STRING
+%import common.SIGNED_NUMBER
+%import common.CNAME -> NAME
+%import common.LETTER
+%import common.INT
+%import common.WS
+%ignore WS

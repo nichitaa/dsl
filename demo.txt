@@ -1,0 +1,41 @@
+subplot subplotName = {
+    type = simple,
+    x = [0, 5, 10, 15],
+    y = [1, 2, 5, 8],
+    style = {
+        color: red,
+        label: "subplot label",
+        line_style: "--",
+        marker: "*",
+        line_width: 1
+    }
+}
+
+plot newOne = {
+    type = simple,
+    x = [0, 5, 10, 15],
+    y = [0, 4, 10, 20],
+    style = {
+        theme: "ggplot",
+        color: green,
+        line_style: "--",
+        marker: "o",
+        line_width: 1,
+        label: "some plot label"
+    },
+    legend = {
+        x: "x label",
+        y: "y label",
+        title: "plot title",
+        loc: "upper left",
+        shadow: false
+    },
+    config = {
+        grid: true,
+        tight_layout: true,
+        save: "filename.png"
+    },
+    subplots = {
+        subplotName
+    }
+}
