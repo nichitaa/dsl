@@ -49,6 +49,10 @@ legend_param    : x_label
                 | title
                 | loc
                 | shadow
+                | legend_label_color
+                | legend_title
+legend_label_color : "label_color" ":" color_enum
+legend_title    : "legend_title" ":" STRING
 x_label         : "x" ":" STRING
 y_label         : "y" ":" STRING
 title           : "title" ":" STRING
@@ -84,4 +88,5 @@ STRING : ESCAPED_STRING
 %import common.LETTER
 %import common.INT
 %import common.WS
+%ignore /#[^\n]*/
 %ignore WS

@@ -1,4 +1,5 @@
-subplot subplotName = {
+# comment
+subplot subplot0 = {
     type = simple,
     x = [0, 5, 10, 15],
     y = [1, 2, 5, 8],
@@ -11,7 +12,51 @@ subplot subplotName = {
     }
 }
 
-plot newOne = {
+subplot subplot1 = {
+    type = simple,
+    x = [0, 5, 10, 15],
+    y = [1, 2, 5, 8],
+    style = {
+        color: green,
+        label: "subplot 1 label",
+        line_style: "--",
+        marker: "o",
+        line_width: 1
+    }
+}
+
+plot mainplot0 = {
+    type = simple,
+    x = [0, 5, 10, 15],
+    y = [0, 4, 10, 20],
+    style = {
+        theme: "seaborn",
+        color: green,
+        line_style: "--",
+        marker: "o",
+        label: "some plot label"
+    },
+    legend = {
+        x: "x label",
+        y: "y label",
+        title: "Main plot 0",
+        legend_title: "Legend title",
+        label_color: red,
+        loc: "upper left",
+        shadow: true
+    },
+    config = {
+        grid: true,
+        tight_layout: true,
+        save: "filename.png"
+    },
+    subplots = {
+        subplot0,
+        subplot1
+    }
+}
+
+plot mainplot1 = {
     type = simple,
     x = [0, 5, 10, 15],
     y = [0, 4, 10, 20],
@@ -20,15 +65,14 @@ plot newOne = {
         color: green,
         line_style: "--",
         marker: "o",
-        line_width: 1,
         label: "some plot label"
     },
     legend = {
         x: "x label",
         y: "y label",
-        title: "plot title",
+        title: "Main plot 1",
         loc: "upper left",
-        shadow: false
+        shadow: true
     },
     config = {
         grid: true,
@@ -36,6 +80,6 @@ plot newOne = {
         save: "filename.png"
     },
     subplots = {
-        subplotName
+        subplot0
     }
 }

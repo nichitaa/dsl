@@ -64,27 +64,27 @@ class Parser:
             self.set_plot_type(plt_type, name)
         elif param_type == 'x_axis':
             data = values[0]
-            self.x_axis(data, name)
+            self.set_x_axis(data, name)
         elif param_type == 'y_axis':
             data = values[0]
-            self.y_axis(data, name)
+            self.set_y_axis(data, name)
         elif param_type == 'plot_styles':
-            self.plot_styles(values, name)
+            self.set_styles(values, name)
         elif param_type == 'legend':
-            self.plot_legend(values, name)
+            self.set_legend(values, name)
         elif param_type == 'config':
-            self.plot_config(values, name)
+            self.set_config(values, name)
         elif param_type == 'subplots':
-            self.plot_set_subplots(values, name)
+            self.set_subplots(values, name)
         else:
             return
 
-    def plot_set_subplots(self, subplots, name):
+    def set_subplots(self, subplots, name):
         self.plt_vars[name]['subplots'] = []
         for s in subplots:
             self.plt_vars[name]['subplots'].append(s.value)
 
-    def plot_config(self, config, name):
+    def set_config(self, config, name):
         self.plt_vars[name]['config'] = {}
         for c in config:
             config_key = c.children[0].data
@@ -93,37 +93,54 @@ class Parser:
                 config_val = config_val[1:-1]
             self.plt_vars[name]['config'][config_key] = config_val
 
-    def plot_legend(self, legend, name):
+    def set_legend(self, legend, name):
         self.plt_vars[name]['legend'] = {}
         for legend_param in legend:
             legend_param_type = legend_param.children[0].data
             if legend_param_type == 'x_label' or legend_param_type == 'y_label':
                 label_value = legend_param.children[0].children[0].value
-                self.plot_legend_label(legend_param_type, label_value, name)
+                self.set_legend_label(legend_param_type, label_value, name)
 
             elif legend_param_type == 'title':
                 title = legend_param.children[0].children[0].value
-                self.plot_legend_title(title, name)
+                self.set_plot_title(title, name)
 
             elif legend_param_type == 'loc':
                 loc = legend_param.children[0].children[0].value
-                self.plot_legend_loc(loc, name)
+                self.set_legend_loc(loc, name)
 
             elif legend_param_type == 'shadow':
                 shadow = legend_param.children[0].children[0]
-                self.plot_legend_shadow(shadow, name)
+                self.set_legend_shadow(shadow, name)
 
-    def plot_legend_shadow(self, shadow, name):
-        self.plt_vars[name]['legend']['shadow'] = bool(shadow)
+            elif legend_param_type == 'legend_title':
+                legend_title = legend_param.children[0].children[0]
+                self.set_legend_title(legend_title, name)
 
-    def plot_legend_loc(self, loc, name):
-        self.plt_vars[name]['legend']['loc'] = str(loc[1:-1])
+            elif legend_param_type == 'legend_label_color':
+                legend_label_color = legend_param.children[0].children[0].data
+                self.set_legend_label_color(legend_label_color, name)
 
-    def plot_legend_title(self, title, name):
+            else:
+                raise Exception(f"Not a valid legend argument! {legend_param_type}")
+
+    def set_plot_title(self, title, name):
+        self.plt_vars[name]['legend']['legend_title'] = str(title[1:-1])
+
+    def set_legend_title(self, title, name):
         self.plt_vars[name]['legend']['title'] = str(title[1:-1])
 
-    def plot_legend_label(self, axis, value, name):
+    def set_legend_shadow(self, shadow, name):
+        self.plt_vars[name]['legend']['shadow'] = bool(shadow)
+
+    def set_legend_loc(self, loc, name):
+        self.plt_vars[name]['legend']['loc'] = str(loc[1:-1])
+
+    def set_legend_label(self, axis, value, name):
         self.plt_vars[name]['legend'][axis] = str(value[1:-1])
+
+    def set_legend_label_color(self, color, name):
+        self.plt_vars[name]['legend']['legend_label_color'] = color
 
     #########################################################################
     #                                SUBPLOT                                #
@@ -145,13 +162,13 @@ class Parser:
             self.set_plot_type(plt_type, name)
         elif param_type == 'x_axis':
             data = values[0]
-            self.x_axis(data, name)
+            self.set_x_axis(data, name)
         elif param_type == 'y_axis':
             data = values[0]
-            self.y_axis(data, name)
+            self.set_y_axis(data, name)
         elif param_type == 'plot_styles':
             styles = values
-            self.plot_styles(styles, name)
+            self.set_styles(styles, name)
         else:
             return
 
@@ -159,119 +176,167 @@ class Parser:
     #                               COMMON                                  #
     #########################################################################
 
-    def plot_styles(self, styles, name):
+    def set_styles(self, styles, name):
         self.plt_vars[name]['styles'] = {}
         for s in styles:
             style_type = s.children[0].data
             if style_type == 'color':
                 c = s.children[0].children[0].data
-                self.color(c, name)
+                self.set_color(c, name)
 
             elif style_type == 'label':
                 l = s.children[0].children[0].value
-                self.label(l, name)
+                self.set_label(l, name)
 
             elif style_type == 'line_style':
                 ls = s.children[0].children[0].value
-                self.line_style(ls, name)
+                self.set_line_style(ls, name)
 
             elif style_type == 'marker':
                 m = s.children[0].children[0].value
-                self.marker(m, name)
+                self.set_marker(m, name)
 
             elif style_type == 'line_width':
                 lw = s.children[0].children[0]
-                self.line_width(lw, name)
+                self.set_line_width(lw, name)
 
             elif style_type == 'theme':
-                pass
+                t = s.children[0].children[0].value
+                self.set_theme(t, name)
+                # pass
 
             else:
                 return
 
-    def line_width(self, lw, name):
+    def set_line_width(self, lw, name):
         self.plt_vars[name]['styles']['line_width'] = int(lw)
 
-    def line_style(self, s, name):
+    def set_line_style(self, s, name):
         self.plt_vars[name]['styles']['line_style'] = str(s[1:-1])
 
-    def marker(self, m, name):
+    def set_marker(self, m, name):
         self.plt_vars[name]['styles']['marker'] = str(m[1:-1])
 
-    def label(self, l, name):
+    def set_label(self, l, name):
         self.plt_vars[name]['styles']['label'] = str(l[1:-1])
 
-    def color(self, c, name):
+    def set_color(self, c, name):
         self.plt_vars[name]['styles']['color'] = c
 
-    def y_axis(self, data, name):
+    def set_theme(self, t, name):
+        self.plt_vars[name]['styles']['theme'] = str(t[1:-1])
+
+    def set_y_axis(self, data, name):
         self.plt_vars[name]['y_axis'] = data
 
-    def x_axis(self, data, name):
+    def set_x_axis(self, data, name):
         self.plt_vars[name]['x_axis'] = data
 
     def set_plot_type(self, type, name):
         self.plt_vars[name]['type'] = type
 
     ##################################################################
-    #                 MATPLOTLIB CODE WILL BE HERE                   #
+    #      MANIPULATE WITH DICT self.plt_vars TO SHOW THE PLOTS      #
     ##################################################################
 
-    # todo: clean and split this shit up and find a better logic!
+    @staticmethod
+    def get_xy(d):
+        return d['x_axis'], d['y_axis']
 
-    def plt_simple(self, plt_params):
-        subplots = []
-        if 'subplot' in plt_params:
-            subplot = True
-        elif 'plot' in plt_params:
-            subplot = False
-            if 'subplots' in plt_params:
-                subplots = plt_params['subplots']
-            if 'legend' in plt_params:
-                legend_x = plt_params['legend']['x_label']
-                legend_y = plt_params['legend']['x_label']
-                title = plt_params['legend']['title']
-                loc = plt_params['legend']['loc']
-                shadow = plt_params['legend']['shadow']
+    @staticmethod
+    def get_plot_type(d):
+        return d['type']
 
-        gx = plt_params['x_axis']
-        gy = plt_params['y_axis']
-        gc = plt_params['styles']['color']
-        glabel = plt_params['styles']['label']
-        gl_style = plt_params['styles']['line_style']
-        gm = plt_params['styles']['marker']
-        gl_width = plt_params['styles']['line_width']
-        # fig = plt.figure()
-        # todo: return figure instance or some plot ref idk
+    @staticmethod
+    def get_legend(d):
+        x_label = d['legend'].get('x_label')
+        y_label = d['legend'].get('y_label')
+        title = d['legend'].get('title')
+        loc = d['legend'].get('loc')
+        shadow = d['legend'].get('shadow')
+        legend_title = d['legend'].get('legend_title')
+        label_color = d['legend'].get('legend_label_color')
+        return title, x_label, y_label, loc, shadow, legend_title, label_color
 
+    @staticmethod
+    def get_styles(d):
+        c = d['styles'].get('color')
+        l = d['styles'].get('label')
+        ls = d['styles'].get('line_style')
+        m = d['styles'].get('marker')
+        lw = d['styles'].get('line_width')
+        return c, l, ls, m, lw
 
-        # just to see if values are getting applied
-        if len(subplots) > 0:
-            for subplot in subplots:
-                if subplot in self.plt_vars:
-                    subplot = self.plt_vars[subplot]
-                    x = subplot['x_axis']
-                    y = subplot['y_axis']
-                    c = subplot['styles']['color']
-                    label = subplot['styles']['label']
-                    l_style = subplot['styles']['line_style']
-                    m = subplot['styles']['marker']
-                    l_width = subplot['styles']['line_width']
-                    plt.plot(x, y, color=c, linestyle=l_style, marker=m, linewidth=l_width, label=label)
-                    plt.plot(gx, gy, color=gc, linestyle=gl_style, marker=gm, linewidth=gl_width, label=glabel)
-                    plt.xlabel(legend_x)
-                    plt.ylabel(legend_y)
-                    plt.title(title)
-                    plt.legend()
-                    plt.grid(True)
-                    plt.tight_layout()
-        plt.show()
+    @staticmethod
+    def get_plot_theme(d):
+        return d['styles'].get('theme')
 
-    def plt_type(self, plt_type, plt_params):
-        # print(plt_type)
-        # print(plt_params)
-        if plt_type == 'simple':
-            self.plt_simple(plt_params)
+    ##################################################################
+    #                  MATPLOTLIB CODE WILL BE HERE                  #
+    ##################################################################
+    """
+    if this is the main plot (plot=True)
+    collect its data + styles
+    iterate over its array of subplots references
+    create new figure with: 
+        plt.plot(main plot)
+        plt.plot(subplots)
+    """
+
+    def display_plot(self, plot_data):
+        # get plot data
+        _subplots = plot_data['subplots']
+        x, y = self.get_xy(plot_data)
+        c, l, ls, m, lw = self.get_styles(plot_data)
+        theme = self.get_plot_theme(plot_data)
+        plot_type = self.get_plot_type(plot_data)
+        plot_title, x_label, y_label, loc, shadow, legend_title, legend_label_color = self.get_legend(plot_data)
+
+        # set theme
+        if theme is not None:
+            plt.style.use(theme)
+
+        # create subplots
+        fig, axs = plt.subplots(len(_subplots) + 1)
+
+        # plot main plot first
+        axs[0].plot(x, y, color=c, linestyle=ls, marker=m, linewidth=lw, label=l)
+
+        for i in range(len(_subplots)):
+            # if the subplot data exists in global dict
+            if _subplots[i] in self.plt_vars:
+                subplot_data = self.plt_vars[_subplots[i]]
+                x, y = self.get_xy(subplot_data)
+                c, l, ls, m, lw = self.get_styles(subplot_data)
+                subplot_type = self.get_plot_type(subplot_data)
+                """if subplot_type !== main_plot_type => they are not compatible"""
+                if subplot_type != plot_type:
+                    raise Exception(
+                        f"The subplot `{_subplots[i]}` must be of type: `{plot_type}` (not `{subplot_type}`)!")
+                # plot the subplot data
+                axs[i + 1].plot(x, y, color=c, linestyle=ls, marker=m, linewidth=lw, label=l)
+                # plt.grid(True)
+
+            # the subplot is not defined
+            else:
+                raise Exception(f"The subplot: `{_subplots[i]}` is not defined!")
+
+        # plot title
+        fig.suptitle(plot_title)
+        # plt.grid(True)
+        # legend
+        plt.xlabel(x_label)
+        plt.ylabel(y_label)
+        fig.legend(
+            loc=loc,
+            shadow=shadow,
+            fontsize='small',
+            title=legend_title,
+            framealpha=1,
+            frameon=True,
+            labelcolor=legend_label_color,
+        )
+        # plt.show(block=False)
 
     def run(self):
         for instruction in self.parse_tree.children:
@@ -281,15 +346,17 @@ class Parser:
             plot_ref = key
             plot_params = val
             for param_type, param in plot_params.items():
-                if param_type == 'type':
-                    self.plt_type(param, val)
-
-        print(json.dumps(self.plt_vars, indent=4))
+                # if main plot found
+                if param_type == 'plot':
+                    self.display_plot(val)
+        # better show all plots at once
+        plt.tight_layout()
+        plt.show()
+        # print(json.dumps(self.plt_vars, indent=4))
 
 
 def test():
     program = open("demo.txt", "r").read()
-    # print(program)
     parser = Parser(program)
     parser.makeDot()
     parser.run()
