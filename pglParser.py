@@ -1,9 +1,9 @@
+import json
 import sys
 from lark import Lark, Transformer, tree, v_args
 import matplotlib.pyplot as plt
 
-
-# set some defaults terminals instead of plain strings
+# Import instructions
 from instructions.arrayInstr import ArrayInstruction
 from instructions.plotInstr import PlotInstruction
 from instructions.subplotInst import SubplotInstruction
@@ -54,7 +54,6 @@ class Parser:
         # todo: handle errors
         else:
             return
-
 
     def run(self):
         for instruction_tree in self.parse_tree.children:

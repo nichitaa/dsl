@@ -5,11 +5,10 @@ import matplotlib.pyplot as plt
 class PlotInstruction(SubplotInstruction):
     def __init__(self, instruction_data, variables):
         super().__init__(instruction_data, variables)
-        self.plt_vars = {}
         self.plot_name = instruction_data[0].value
         self.plot_value = instruction_data[1]
         self.plot_params = self.plot_value.children
-        self.plt_vars[self.plot_name] = {'plot': True}
+
         for param in self.plot_params:
             self.plot_param(param.children, self.plot_name)
 
@@ -18,7 +17,7 @@ class PlotInstruction(SubplotInstruction):
 
     def execute(self):
         # get plot data
-        plot_data = self.plt_vars[self.plot_name]
+        plot_data = self.variables[self.plot_name]
         _subplots = plot_data['subplots']
         x, y = self.get_xy(plot_data)
         c, l, ls, m, lw = self.get_styles(plot_data)
@@ -39,8 +38,7 @@ class PlotInstruction(SubplotInstruction):
         for i in range(len(_subplots)):
             # if the subplot data exists in global dict
             if _subplots[i] in self.variables:
-                plt_vars = self.variables[_subplots[i]].plt_vars
-                subplot_data = plt_vars[_subplots[i]]
+                subplot_data = self.variables[_subplots[i]]
                 x, y = self.get_xy(subplot_data)
                 c, l, ls, m, lw = self.get_styles(subplot_data)
                 subplot_type = self.get_plot_type(subplot_data)
@@ -73,7 +71,6 @@ class PlotInstruction(SubplotInstruction):
         )
         # plt.show(block=False)
 
-
     def plot_param(self, p, name):
         param_type = p[0].data
         values = p[0].children
@@ -98,68 +95,53 @@ class PlotInstruction(SubplotInstruction):
             return
 
     def set_subplots(self, subplots, name):
-        self.plt_vars[name]['subplots'] = []
+        subplots_arr = []
+        self.__setitem__('subplots', subplots_arr)
+
         for s in subplots:
-            self.plt_vars[name]['subplots'].append(s.value)
+            subplots_arr.append(s.value)
 
     def set_config(self, config, name):
-        self.plt_vars[name]['config'] = {}
+        config_dict = {}
+        self.__setitem__('config', config_dict)
         for c in config:
             config_key = c.children[0].data
             config_val = c.children[0].children[0]
             if config_key == 'save':
                 config_val = config_val[1:-1]
-            self.plt_vars[name]['config'][config_key] = config_val
+            config_dict[config_key] = config_val
 
     def set_legend(self, legend, name):
-        self.plt_vars[name]['legend'] = {}
+        legend_dict = {}
+        self.__setitem__('legend', legend_dict)
         for legend_param in legend:
             legend_param_type = legend_param.children[0].data
             if legend_param_type == 'x_label' or legend_param_type == 'y_label':
                 label_value = legend_param.children[0].children[0].value
-                self.set_legend_label(legend_param_type, label_value, name)
+                legend_dict[legend_param_type] = str(label_value[1:-1])
 
             elif legend_param_type == 'title':
                 title = legend_param.children[0].children[0].value
-                self.set_plot_title(title, name)
+                legend_dict['legend_title'] = str(title[1:-1])
 
             elif legend_param_type == 'loc':
                 loc = legend_param.children[0].children[0].value
-                self.set_legend_loc(loc, name)
+                legend_dict['loc'] = str(loc[1:-1])
 
             elif legend_param_type == 'shadow':
                 shadow = legend_param.children[0].children[0]
-                self.set_legend_shadow(shadow, name)
+                legend_dict['shadow'] = bool(shadow)
 
             elif legend_param_type == 'legend_title':
                 legend_title = legend_param.children[0].children[0]
-                self.set_legend_title(legend_title, name)
+                legend_dict['title'] = str(title[1:-1])
 
             elif legend_param_type == 'legend_label_color':
                 legend_label_color = legend_param.children[0].children[0].data
-                self.set_legend_label_color(legend_label_color, name)
+                legend_dict['legend_label_color'] = legend_label_color
 
             else:
                 raise Exception(f"Not a valid legend argument! {legend_param_type}")
-
-    def set_plot_title(self, title, name):
-        self.plt_vars[name]['legend']['legend_title'] = str(title[1:-1])
-
-    def set_legend_title(self, title, name):
-        self.plt_vars[name]['legend']['title'] = str(title[1:-1])
-
-    def set_legend_shadow(self, shadow, name):
-        self.plt_vars[name]['legend']['shadow'] = bool(shadow)
-
-    def set_legend_loc(self, loc, name):
-        self.plt_vars[name]['legend']['loc'] = str(loc[1:-1])
-
-    def set_legend_label(self, axis, value, name):
-        self.plt_vars[name]['legend'][axis] = str(value[1:-1])
-
-    def set_legend_label_color(self, color, name):
-        self.plt_vars[name]['legend']['legend_label_color'] = color
-
 
     def get_array_variable(self, name):
         if name in self.variables:
@@ -170,17 +152,18 @@ class PlotInstruction(SubplotInstruction):
 
     def get_xy(self, d):
         x, y = [], []
-        if type(d['x_axis']) == list:
-            x = d['x_axis']
+        x_val = d['x_axis']
+        y_val = d['y_axis']
 
-        if type(d['x_axis']) != list:
-            x = self.get_array_variable(d['x_axis'])
+        if type(x_val) == list:
+            x = x_val
+        else:
+            x = self.get_array_variable(x_val)
 
-        if type(d['y_axis']) == list:
-            y = d['y_axis']
-
-        if type(d['y_axis']) != list:
-            y = self.get_array_variable(d['y_axis'])
+        if type(y_val) == list:
+            y = y_val
+        else:
+            y = self.get_array_variable(y_val)
         return x, y
 
     @staticmethod

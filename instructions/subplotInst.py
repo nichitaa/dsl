@@ -1,14 +1,13 @@
 from instructions.instruction import Instruction
 
 
-class SubplotInstruction(Instruction):
+class SubplotInstruction(Instruction, dict):
     def __init__(self, instruction_data, variables):
-        super().__init__(instruction_data, variables)
-        self.plt_vars = {}
+        super(SubplotInstruction, self).__init__(instruction_data, variables)
+        self.styles = {}
         subplot_name = instruction_data[0].value
         subplot_value = instruction_data[1]
         subplot_params = subplot_value.children
-        self.plt_vars[subplot_name] = {'subplot': True}
         for param in subplot_params:
             self.subplot_param(param.children, subplot_name)
 
@@ -36,7 +35,8 @@ class SubplotInstruction(Instruction):
             return
 
     def set_styles(self, styles, name):
-        self.plt_vars[name]['styles'] = {}
+        super().__setitem__('styles', {})
+        self.styles = super().__getitem__('styles')
         for s in styles:
             style_type = s.children[0].data
             if style_type == 'color':
@@ -68,28 +68,28 @@ class SubplotInstruction(Instruction):
                 return
 
     def set_line_width(self, lw, name):
-        self.plt_vars[name]['styles']['line_width'] = int(lw)
+        self.styles['line_width'] = int(lw)
 
     def set_line_style(self, s, name):
-        self.plt_vars[name]['styles']['line_style'] = str(s[1:-1])
+        self.styles['line_style'] = str(s[1:-1])
 
     def set_marker(self, m, name):
-        self.plt_vars[name]['styles']['marker'] = str(m[1:-1])
+        self.styles['marker'] = str(m[1:-1])
 
     def set_label(self, l, name):
-        self.plt_vars[name]['styles']['label'] = str(l[1:-1])
+        self.styles['label'] = str(l[1:-1])
 
     def set_color(self, c, name):
-        self.plt_vars[name]['styles']['color'] = c
+        self.styles['color'] = c
 
     def set_theme(self, t, name):
-        self.plt_vars[name]['styles']['theme'] = str(t[1:-1])
+        self.styles['theme'] = str(t[1:-1])
 
     def set_y_axis(self, data, name):
-        self.plt_vars[name]['y_axis'] = data
+        super().__setitem__('y_axis', data)
 
     def set_x_axis(self, data, name):
-        self.plt_vars[name]['x_axis'] = data
+        super().__setitem__('x_axis', data)
 
     def set_plot_type(self, type, name):
-        self.plt_vars[name]['type'] = type
+        super().__setitem__('type', type)
