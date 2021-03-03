@@ -26,7 +26,8 @@ class Parser:
                            maybe_placeholders=False,
                            transformer=TreeToDSL())
         self.parse_tree = self.parser.parse(self._program)
-        self.plt_vars = {}
+        self.plt_vars = {}  # plots data here
+        self.data_vars = {}  # variables like arrays and strings here
 
     @staticmethod
     def getGrammar(filename):
@@ -38,11 +39,29 @@ class Parser:
         tree.pydot__tree_to_dot(self.parser.parse(self._program), filepath)
 
     def run_assignment(self, t):
-        if t.children[0].data == 'subplot_assign':
+        instruction = t.children[0].data
+        if instruction == 'subplot_assign':
             self.subplot_assign(t.children[0].children)
 
-        elif t.children[0].data == 'plot_assign':
+        elif instruction == 'plot_assign':
             self.plot_assign(t.children[0].children)
+
+        elif instruction == 'arr_assign':
+            self.array_assign(t.children[0].children)
+
+        # todo: handle errors
+        else:
+            return
+
+    #########################################################################
+    #                                   ARRAYS                              #
+    #########################################################################
+    def array_assign(self, data):
+        arr_name = data[0].value
+        arr_value = data[1]
+        # print(arr_name, arr_value)
+        self.data_vars[arr_name] = arr_value
+        print(self.data_vars)
 
     #########################################################################
     #                                   PLOT                                #
@@ -236,12 +255,30 @@ class Parser:
         self.plt_vars[name]['type'] = type
 
     ##################################################################
-    #      MANIPULATE WITH DICT self.plt_vars TO SHOW THE PLOTS      #
+    #                   ACTUAL WORK WILL BE HERE                     #
     ##################################################################
 
-    @staticmethod
-    def get_xy(d):
-        return d['x_axis'], d['y_axis']
+    def get_array_variable(self, name):
+        if name in self.data_vars:
+            return self.data_vars[name]
+        else:
+            # undefined variable error
+            raise Exception(f'Undefined array: {name}')
+
+    def get_xy(self, d):
+        x, y = [], []
+        if type(d['x_axis']) == list:
+            x = d['x_axis']
+
+        if type(d['x_axis']) != list:
+            x = self.get_array_variable(d['x_axis'])
+
+        if type(d['y_axis']) == list:
+            y = d['y_axis']
+
+        if type(d['y_axis']) != list:
+            y = self.get_array_variable(d['y_axis'])
+        return x, y
 
     @staticmethod
     def get_plot_type(d):
@@ -351,7 +388,7 @@ class Parser:
                     self.display_plot(val)
         # better show all plots at once
         plt.tight_layout()
-        plt.show()
+        # plt.show() # uncomment this to see the plots
         # print(json.dumps(self.plt_vars, indent=4))
 
 

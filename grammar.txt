@@ -1,6 +1,9 @@
 start           : instruction+
 instruction     : subplot_assign
                 | plot_assign
+                | arr_assign
+
+arr_assign      : "arr" NAME "=" array
 
 subplot_assign  : "subplot" NAME "=" subplot_params
 plot_assign     : "plot" NAME "=" plot_params
@@ -27,7 +30,9 @@ type            : "simple"  -> simple
                 | "stack"   -> stack
 
 x_axis          : "x" "=" array
+                | "x" "=" NAME
 y_axis          : "y" "=" array
+                | "y" "=" NAME
 
 plot_styles     : "style" "=" "{" plot_style ("," plot_style)* "}"
 plot_style      : theme
