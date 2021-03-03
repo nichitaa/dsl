@@ -1,1 +1,3 @@
 .idea
+__pycache__/
+instructions/__pycache__/
