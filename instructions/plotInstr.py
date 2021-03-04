@@ -33,7 +33,7 @@ class PlotInstruction(SubplotInstruction):
         fig, axs = plt.subplots(len(_subplots) + 1)
 
         # plot main plot first
-        axs[0].plot(x, y, color=c, linestyle=ls, marker=m, linewidth=lw, label=l)
+        axs[0].plot(x, y, color=c, linestyle=ls, marker=m, linewidth=lw, label=l) #change type here
 
         for i in range(len(_subplots)):
             # if the subplot data exists in global dict
@@ -74,32 +74,20 @@ class PlotInstruction(SubplotInstruction):
     def plot_param(self, p, name):
         param_type = p[0].data
         values = p[0].children
-        if param_type == 'types':
-            plt_type = p[0].children[0].data
-            self.set_plot_type(plt_type, name)
-        elif param_type == 'x_axis':
-            data = values[0]
-            self.set_x_axis(data, name)
-        elif param_type == 'y_axis':
-            data = values[0]
-            self.set_y_axis(data, name)
-        elif param_type == 'plot_styles':
-            self.set_styles(values, name)
+        self.subplot_param(p,name)
+        if param_type == 'subplots':
+            subplots_arr = []
+            self.__setitem__('subplots', subplots_arr)
+
+            for s in values:
+                subplots_arr.append(s.value)
         elif param_type == 'legend':
             self.set_legend(values, name)
+            
         elif param_type == 'config':
             self.set_config(values, name)
-        elif param_type == 'subplots':
-            self.set_subplots(values, name)
         else:
             return
-
-    def set_subplots(self, subplots, name):
-        subplots_arr = []
-        self.__setitem__('subplots', subplots_arr)
-
-        for s in subplots:
-            subplots_arr.append(s.value)
 
     def set_config(self, config, name):
         config_dict = {}

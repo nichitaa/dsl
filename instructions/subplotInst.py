@@ -21,13 +21,13 @@ class SubplotInstruction(Instruction, dict):
         values = p[0].children
         if param_type == 'types':
             plt_type = p[0].children[0].data
-            self.set_plot_type(plt_type, name)
+            super().__setitem__('type', plt_type)
         elif param_type == 'x_axis':
             data = values[0]
-            self.set_x_axis(data, name)
+            super().__setitem__('x_axis', data)
         elif param_type == 'y_axis':
             data = values[0]
-            self.set_y_axis(data, name)
+            super().__setitem__('y_axis', data)
         elif param_type == 'plot_styles':
             styles = values
             self.set_styles(styles, name)
@@ -41,55 +41,27 @@ class SubplotInstruction(Instruction, dict):
             style_type = s.children[0].data
             if style_type == 'color':
                 c = s.children[0].children[0].data
-                self.set_color(c, name)
+                self.styles['color'] = c
 
             elif style_type == 'label':
                 l = s.children[0].children[0].value
-                self.set_label(l, name)
+                self.styles['label'] = str(l[1:-1])
 
             elif style_type == 'line_style':
                 ls = s.children[0].children[0].value
-                self.set_line_style(ls, name)
+                self.styles['line_style'] = str(ls[1:-1])
 
             elif style_type == 'marker':
                 m = s.children[0].children[0].value
-                self.set_marker(m, name)
+                self.styles['marker'] = str(m[1:-1])
 
             elif style_type == 'line_width':
                 lw = s.children[0].children[0]
-                self.set_line_width(lw, name)
+                self.styles['line_width'] = int(lw)
 
             elif style_type == 'theme':
                 t = s.children[0].children[0].value
-                self.set_theme(t, name)
-                # pass
-
+                self.styles['theme'] = str(t[1:-1])
             else:
                 return
 
-    def set_line_width(self, lw, name):
-        self.styles['line_width'] = int(lw)
-
-    def set_line_style(self, s, name):
-        self.styles['line_style'] = str(s[1:-1])
-
-    def set_marker(self, m, name):
-        self.styles['marker'] = str(m[1:-1])
-
-    def set_label(self, l, name):
-        self.styles['label'] = str(l[1:-1])
-
-    def set_color(self, c, name):
-        self.styles['color'] = c
-
-    def set_theme(self, t, name):
-        self.styles['theme'] = str(t[1:-1])
-
-    def set_y_axis(self, data, name):
-        super().__setitem__('y_axis', data)
-
-    def set_x_axis(self, data, name):
-        super().__setitem__('x_axis', data)
-
-    def set_plot_type(self, type, name):
-        super().__setitem__('type', type)
