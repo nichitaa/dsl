@@ -122,7 +122,7 @@ class PlotInstruction(SubplotInstruction):
 
             elif legend_param_type == 'title':
                 title = legend_param.children[0].children[0].value
-                legend_dict['legend_title'] = str(title[1:-1])
+                legend_dict['title'] = str(title[1:-1])
 
             elif legend_param_type == 'loc':
                 loc = legend_param.children[0].children[0].value
@@ -134,7 +134,7 @@ class PlotInstruction(SubplotInstruction):
 
             elif legend_param_type == 'legend_title':
                 legend_title = legend_param.children[0].children[0]
-                legend_dict['title'] = str(title[1:-1])
+                legend_dict['legend_title'] = str(legend_title[1:-1])
 
             elif legend_param_type == 'legend_label_color':
                 legend_label_color = legend_param.children[0].children[0].data
