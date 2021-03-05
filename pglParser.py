@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 
 # Import instructions
 from instructions.arrayInstr import ArrayInstruction
+from instructions.fileInputInstr import FileInputInstruction
 from instructions.plotInstr import PlotInstruction
 from instructions.subplotInst import SubplotInstruction
 
@@ -50,6 +51,9 @@ class Parser:
 
         elif instruction == 'arr_assign':
             self.instructions.append(ArrayInstruction(children, self.variables))
+
+        elif instruction == 'input_assign':
+            self.instructions.append(FileInputInstruction(children, self.variables))
 
         # todo: handle errors
         else:

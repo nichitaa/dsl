@@ -83,7 +83,7 @@ class PlotInstruction(SubplotInstruction):
                 subplots_arr.append(s.value)
         elif param_type == 'legend':
             self.set_legend(values, name)
-            
+
         elif param_type == 'config':
             self.set_config(values, name)
         else:
