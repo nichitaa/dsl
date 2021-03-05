@@ -1,5 +1,6 @@
 import os
 from instructions.instruction import Instruction
+from consts.consts import *
 
 
 class FileInputInstruction(Instruction):
@@ -7,7 +8,7 @@ class FileInputInstruction(Instruction):
         super().__init__(instruction_data, variables)
         arr_name = instruction_data[0].value
         filename = instruction_data[1].strip('"')
-        var_type = 'string'
+        var_type = STRING
         if len(instruction_data) > 2:
             var_type = instruction_data[2].data
 
@@ -23,11 +24,11 @@ class FileInputInstruction(Instruction):
         str_lambda = lambda var: var
 
         lamb = str_lambda
-        if var_type == 'int':
+        if var_type == INT:
             lamb = int_lambda
-        elif var_type == 'float':
+        elif var_type == FLOAT:
             lamb = float_lambda
-        elif var_type == 'bool':
+        elif var_type == BOOL:
             lamb = bool_lambda
 
         try:

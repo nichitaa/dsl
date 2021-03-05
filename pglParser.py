@@ -2,6 +2,7 @@ import json
 import os
 from lark import Lark, Transformer, tree, v_args
 import matplotlib.pyplot as plt
+from consts.consts import *
 
 # Import instructions
 from instructions.arrayInstr import ArrayInstruction
@@ -42,16 +43,16 @@ class Parser:
         instruction = instruction_tree.children[0].data
         children = instruction_tree.children[0].children
 
-        if instruction == 'subplot_assign':
+        if instruction == SUBPLOT_ASSIGN:
             self.instructions.append(SubplotInstruction(children, self.variables))
 
-        elif instruction == 'plot_assign':
+        elif instruction == PLOT_ASSIGN:
             self.instructions.append(PlotInstruction(children, self.variables))
 
-        elif instruction == 'arr_assign':
+        elif instruction == ARR_ASSIGN:
             self.instructions.append(ArrayInstruction(children, self.variables))
 
-        elif instruction == 'input_assign':
+        elif instruction == INPUT_ASSIGN:
             self.instructions.append(FileInputInstruction(children, self.variables))
 
         # todo: handle errors

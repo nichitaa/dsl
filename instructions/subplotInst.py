@@ -1,4 +1,5 @@
 from instructions.instruction import Instruction
+from consts.consts import *
 
 
 class SubplotInstruction(Instruction, dict):
@@ -19,49 +20,52 @@ class SubplotInstruction(Instruction, dict):
     def subplot_param(self, p, name):
         param_type = p[0].data
         values = p[0].children
-        if param_type == 'types':
+
+        if param_type == TYPES:
             plt_type = p[0].children[0].data
-            super().__setitem__('type', plt_type)
-        elif param_type == 'x_axis':
+            super().__setitem__(TYPE, plt_type)
+
+        elif param_type == X_AXIS:
             data = values[0]
-            super().__setitem__('x_axis', data)
-        elif param_type == 'y_axis':
+            super().__setitem__(X_AXIS, data)
+
+        elif param_type == Y_AXIS:
             data = values[0]
-            super().__setitem__('y_axis', data)
-        elif param_type == 'plot_styles':
+            super().__setitem__(Y_AXIS, data)
+        elif param_type == PLOT_STYLES:
             styles = values
             self.set_styles(styles, name)
         else:
             return
 
     def set_styles(self, styles, name):
-        super().__setitem__('styles', {})
-        self.styles = super().__getitem__('styles')
+        super().__setitem__(STYLES, {})
+        self.styles = super().__getitem__(STYLES)
         for s in styles:
             style_type = s.children[0].data
-            if style_type == 'color':
+            if style_type == COLOR:
                 c = s.children[0].children[0].data
-                self.styles['color'] = c
+                self.styles[COLOR] = c
 
-            elif style_type == 'label':
+            elif style_type == LABEL:
                 l = s.children[0].children[0].value
-                self.styles['label'] = str(l[1:-1])
+                self.styles[LABEL] = str(l[1:-1])
 
-            elif style_type == 'line_style':
+            elif style_type == LINE_STYLE:
                 ls = s.children[0].children[0].value
-                self.styles['line_style'] = str(ls[1:-1])
+                self.styles[LINE_STYLE] = str(ls[1:-1])
 
-            elif style_type == 'marker':
+            elif style_type == MARKER:
                 m = s.children[0].children[0].value
-                self.styles['marker'] = str(m[1:-1])
+                self.styles[MARKER] = str(m[1:-1])
 
-            elif style_type == 'line_width':
+            elif style_type == LINE_WIDTH:
                 lw = s.children[0].children[0]
-                self.styles['line_width'] = int(lw)
+                self.styles[LINE_WIDTH] = int(lw)
 
-            elif style_type == 'theme':
+            elif style_type == THEME:
                 t = s.children[0].children[0].value
-                self.styles['theme'] = str(t[1:-1])
+                self.styles[THEME] = str(t[1:-1])
             else:
                 return
 

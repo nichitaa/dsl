@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+from consts.consts import *
 
 
 class SimplePlot:
@@ -37,9 +38,10 @@ class SimplePlot:
             # if the subplot data exists in global dict
             if subplots[i] in self.variables:
                 subplot_data = self.variables[subplots[i]]
+                subplot_name = subplots[i]
                 x, y = self.get_xy(subplot_data)
                 c, l, ls, m, lw = self.get_styles(subplot_data)
-                subplot_type = self.variables[subplots[i]]['type']
+                subplot_type = self.variables[subplot_name][TYPE]
                 """if subplot_type !== main_plot_type => they are not compatible"""
                 if subplot_type != 'simple':
                     raise Exception(
@@ -69,35 +71,35 @@ class SimplePlot:
         )
 
     def get_subplots(self):
-        subplots = self.data.get('subplots', [])
+        subplots = self.data.get(SUBPLOTS, [])
         return subplots
 
     def get_legend(self):
-        x_label = self.data['legend'].get('x_label', 'DEFAULT X LABEL')
-        y_label = self.data['legend'].get('y_label', 'DEFAULT Y LABEL')
-        title = self.data['legend'].get('title', 'DEFAULT TITLE')
-        loc = self.data['legend'].get('loc', 'upper left')
-        shadow = self.data['legend'].get('shadow', True)
-        legend_title = self.data['legend'].get('legend_title', 'DEFAULT LEGEND')
-        label_color = self.data['legend'].get('legend_label_color', 'blue')
+        x_label = self.data[LEGEND].get(X_LABEL, 'DEFAULT X LABEL')
+        y_label = self.data[LEGEND].get(Y_LABEL, 'DEFAULT Y LABEL')
+        title = self.data[LEGEND].get(TITLE, 'DEFAULT TITLE')
+        loc = self.data[LEGEND].get(LOC, 'upper left')
+        shadow = self.data[LEGEND].get(SHADOW, True)
+        legend_title = self.data[LEGEND].get(LEGEND_TITLE, 'DEFAULT LEGEND')
+        label_color = self.data[LEGEND].get(LEGEND_LABEL_COLOR, 'blue')
         return title, x_label, y_label, loc, shadow, legend_title, label_color
 
     def get_theme(self):
-        t = self.data.get('theme', 'ggplot')
+        t = self.data.get(THEME, 'ggplot')
         return t
 
     def get_styles(self, data):
-        c = data['styles'].get('color', 'red')
-        l = data['styles'].get('label', 'DEFAULT LABEL')
-        ls = data['styles'].get('line_style', '--')
-        m = data['styles'].get('marker', '*')
-        lw = data['styles'].get('line_width', 1)
+        c = data[STYLES].get(COLOR, 'red')
+        l = data[STYLES].get(LABEL, 'DEFAULT LABEL')
+        ls = data[STYLES].get(LINE_STYLE, '--')
+        m = data[STYLES].get(MARKER, '*')
+        lw = data[STYLES].get(LINE_WIDTH, 1)
         return c, l, ls, m, lw
 
     def get_xy(self, data):
         x, y = [], []
-        x_val = data['x_axis']
-        y_val = data['y_axis']
+        x_val = data[X_AXIS]
+        y_val = data[Y_AXIS]
 
         if type(x_val) == list:
             x = x_val
