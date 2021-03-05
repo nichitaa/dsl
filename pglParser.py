@@ -31,7 +31,6 @@ class Parser:
 
         self.parse_tree = self.parser.parse(self._code)
 
-        self.plt_vars = {}  # plots data here
         self.variables = {}  # variables like arrays and strings here
         self.instructions = []
 

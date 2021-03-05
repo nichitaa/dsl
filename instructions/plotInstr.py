@@ -33,7 +33,12 @@ class PlotInstruction(SubplotInstruction):
         fig, axs = plt.subplots(len(_subplots) + 1)
 
         # plot main plot first
-        axs[0].plot(x, y, color=c, linestyle=ls, marker=m, linewidth=lw, label=l) #change type here
+
+        #TODO Check what type is the plot
+        if plot_type == 'scatter':
+            axs[0].scatter(x, y, color=c, linestyle=ls, marker=m, linewidth=lw, label=l)
+        else:
+            axs[0].plot(x, y, color=c, linestyle=ls, marker=m, linewidth=lw, label=l)
 
         for i in range(len(_subplots)):
             # if the subplot data exists in global dict
@@ -43,11 +48,15 @@ class PlotInstruction(SubplotInstruction):
                 c, l, ls, m, lw = self.get_styles(subplot_data)
                 subplot_type = self.get_plot_type(subplot_data)
                 """if subplot_type !== main_plot_type => they are not compatible"""
-                if subplot_type != plot_type:
-                    raise Exception(
-                        f"The subplot `{_subplots[i]}` must be of type: `{plot_type}` (not `{subplot_type}`)!")
+                # if subplot_type != plot_type:
+                #     raise Exception(
+                #         f"The subplot `{_subplots[i]}` must be of type: `{plot_type}` (not `{subplot_type}`)!")
                 # plot the subplot data
-                axs[i + 1].plot(x, y, color=c, linestyle=ls, marker=m, linewidth=lw, label=l)
+                #TODO change subplot types
+                if subplot_data['type'] == 'scatter':
+                    axs[i + 1].scatter(x, y, color=c, linestyle=ls, marker=m, linewidth=lw, label=l)
+                else:
+                    axs[i + 1].plot(x, y, color=c, linestyle=ls, marker=m, linewidth=lw, label=l)
                 # plt.grid(True)
 
             # the subplot is not defined

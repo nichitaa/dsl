@@ -33,6 +33,7 @@ plot_param      : types
 
 types           : "type" "=" type
 type            : "simple"  -> simple
+                | "scatter" -> scatter
                 | "bar"     -> bar
                 | "pie"     -> pie
                 | "stack"   -> stack
@@ -87,6 +88,7 @@ color_enum      : "red"         -> red
                 | "blue"        -> blue
 
 array  : "[" [number ("," number)*] "]"
+
 number: SIGNED_NUMBER
 
 bool : "false"                  -> false
