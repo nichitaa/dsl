@@ -1,5 +1,5 @@
 import json
-import sys
+import os
 from lark import Lark, Transformer, tree, v_args
 import matplotlib.pyplot as plt
 
@@ -36,8 +36,7 @@ class Parser:
         self.instructions = []
 
     def makeDot(self):
-        filepath = sys.argv[0] + ".dot"
-        tree.pydot__tree_to_dot(self.parser.parse(self._code), filepath)
+        tree.pydot__tree_to_dot(self.parser.parse(self._code), os.path.join('./parseTree/', "parseTree.dot"))
 
     def define_instruction(self, instruction_tree):
         instruction = instruction_tree.children[0].data

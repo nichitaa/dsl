@@ -1,0 +1,47 @@
+arr disArray = [0.5, 4, 10, 20]
+
+x_ax = input("array_x.txt", int)
+y_ax = input("array_y.txt", float)
+
+plot noSubplotsHere = {
+    type = simple,
+    x = disArray,
+    y = [0, 4, 10, 20],
+    style = {
+        marker: "o"
+    },
+    legend = {
+        title: "No subplots here"
+    },
+    config = {
+        save: "filename.png"
+    }
+}
+
+subplot subplot0 = {
+    type = simple,
+    x = x_ax,
+    y = y_ax,
+    # will get default styles
+    style = {
+        line_width: 1
+    }
+}
+
+plot withSubplot = {
+    type = simple,
+    x = disArray,
+    y = [0, 4, 10, 20],
+    style = {
+        theme: "seaborn"
+    },
+    legend = {
+        title: "Plot with subplot"
+    },
+    config = {
+        save: "filename.png"
+    },
+    subplots = {
+        subplot0
+    }
+}

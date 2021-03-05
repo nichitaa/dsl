@@ -26,10 +26,10 @@ plot_params     : "{" plot_param ("," plot_param)* "}"
 plot_param      : types
                 | x_axis
                 | y_axis
-                | plot_styles
-                | legend
-                | config
-                | subplots
+                | plot_styles?
+                | legend?
+                | config?
+                | subplots?
 
 types           : "type" "=" type
 type            : "simple"  -> simple
@@ -43,12 +43,12 @@ y_axis          : "y" "=" array
                 | "y" "=" NAME
 
 plot_styles     : "style" "=" "{" plot_style ("," plot_style)* "}"
-plot_style      : theme
-                | color
-                | line_style
-                | marker
-                | line_width
-                | label
+plot_style      : theme?
+                | color?
+                | line_style?
+                | marker?
+                | line_width?
+                | label?
 theme           : "theme" ":" STRING
 color           : "color" ":" color_enum
 line_style      : "line_style" ":" STRING
@@ -57,13 +57,13 @@ line_width      : "line_width" ":" number
 label           : "label" ":" STRING
 
 legend          : "legend" "=" "{" legend_param ("," legend_param)* "}"
-legend_param    : x_label
-                | y_label
-                | title
-                | loc
-                | shadow
-                | legend_label_color
-                | legend_title
+legend_param    : x_label?
+                | y_label?
+                | title?
+                | loc?
+                | shadow?
+                | legend_label_color?
+                | legend_title?
 legend_label_color : "label_color" ":" color_enum
 legend_title    : "legend_title" ":" STRING
 x_label         : "x" ":" STRING
@@ -73,9 +73,9 @@ loc             : "loc" ":" STRING
 shadow          : "shadow" ":" bool
 
 config          : "config" "=" "{" config_param ("," config_param)* "}"
-config_param    : grid
-                | tight_layout
-                | save
+config_param    : grid?
+                | tight_layout?
+                | save?
 tight_layout    : "tight_layout" ":" bool
 grid            : "grid" ":" bool
 save            : "save" ":" STRING

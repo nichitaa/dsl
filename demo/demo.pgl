@@ -5,7 +5,7 @@ arr empatIArray = []
 x_ax = input("array_x.txt", int)
 y_ax = input("array_y.txt", float)
 
-subplot subplot1 = {
+subplot subplot0 = {
     type = simple,
     x = x_ax,
     y = y_ax,
@@ -18,7 +18,24 @@ subplot subplot1 = {
     }
 }
 
-plot mainplot0 = {
+plot noSubplotsHere = {
+    type = simple,
+    x = disArray,
+    y = [0, 4, 10, 20],
+    style = {
+        marker: "o"
+    },
+    legend = {
+        title: "No subplots here",
+        legend_title: "Legend title",
+        shadow: true
+    },
+    config = {
+        save: "filename.png"
+    }
+}
+
+plot platina0 = {
     type = simple,
     x = disArray,
     y = [0, 4, 10, 20],
@@ -44,6 +61,6 @@ plot mainplot0 = {
         save: "filename.png"
     },
     subplots = {
-        subplot1
+        subplot0
     }
 }

@@ -1,3 +1,4 @@
+import os
 from instructions.instruction import Instruction
 
 
@@ -11,15 +12,15 @@ class FileInputInstruction(Instruction):
             var_type = instruction_data[2].data
 
         var = []
-        if arr_name in variables :
+        if arr_name in variables:
             var = variables[arr_name]
         else:
             variables[arr_name] = var
 
-        int_lambda = lambda var : int(var)
-        float_lambda = lambda var : float(var)
-        bool_lambda = lambda var : bool(var)
-        str_lambda = lambda var : var
+        int_lambda = lambda var: int(var)
+        float_lambda = lambda var: float(var)
+        bool_lambda = lambda var: bool(var)
+        str_lambda = lambda var: var
 
         lamb = str_lambda
         if var_type == 'int':
@@ -30,14 +31,12 @@ class FileInputInstruction(Instruction):
             lamb = bool_lambda
 
         try:
-            stream = open(filename, "r")
+            stream = open(os.path.join('./test/', filename), "r")
             for line in stream:
                 var.append(lamb(line))
 
         except IOError:
             raise Exception(f'Cannot open file: {filename}')
-
-
 
     def execute(self):
         return
