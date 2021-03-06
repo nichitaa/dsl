@@ -2,3 +2,4 @@
 __pycache__/
 instructions/__pycache__/
 parseTree
+parseTree/parseTree.dot

@@ -9,6 +9,7 @@ from instructions.arrayInstr import ArrayInstruction
 from instructions.fileInputInstr import FileInputInstruction
 from instructions.plotInstr import PlotInstruction
 from instructions.subplotInst import SubplotInstruction
+from instructions.stringInstr import StringInstruction
 
 
 class TreeToDSL(Transformer):
@@ -54,6 +55,9 @@ class Parser:
 
         elif instruction == INPUT_ASSIGN:
             self.instructions.append(FileInputInstruction(children, self.variables))
+
+        elif instruction == STR_ASSIGN:
+            self.instructions.append(StringInstruction(children, self.variables))
 
         # todo: handle errors
         else:

@@ -3,6 +3,7 @@ instruction     : subplot_assign
                 | plot_assign
                 | arr_assign
                 | input_assign
+                | str_assign
 
 input_assign    : NAME "=" "input" "("  STRING ["," var_type] ")"
 
@@ -12,6 +13,7 @@ var_type        : "int" -> int
                 | "bool" -> bool
 
 arr_assign      : "arr" NAME "=" array
+str_assign      : "str" NAME "=" STRING
 
 subplot_assign  : "subplot" NAME "=" subplot_params
 plot_assign     : "plot" NAME "=" plot_params
@@ -51,6 +53,7 @@ plot_style      : theme?
                 | line_width?
                 | label?
 theme           : "theme" ":" STRING
+                | "theme" ":" NAME
 color           : "color" ":" color_enum
 line_style      : "line_style" ":" STRING
 marker          : "marker" ":" STRING

@@ -65,6 +65,10 @@ class SubplotInstruction(Instruction, dict):
 
             elif style_type == THEME:
                 t = s.children[0].children[0].value
+                tok_type = s.children[0].children[0].type
+                print(tok_type)
+                # if tok type = NAME get variable from variables dict
+                # else
                 self.styles[THEME] = str(t[1:-1])
             else:
                 return
