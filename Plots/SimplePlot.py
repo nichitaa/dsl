@@ -9,7 +9,8 @@ class SimplePlot:
         self.variables = variables
 
     def show(self):
-        # ONLY simple plot configs here
+        """ONLY SIMPLE AND SCATTER PLOTS HERE"""
+        plt_type = self.data[TYPE]
 
         # data tb plotted
         x, y = self.get_xy(self.data)
@@ -28,10 +29,16 @@ class SimplePlot:
         # create new figure
         if len(subplots) > 0:
             fig, axs = plt.subplots(len(subplots) + 1)
-            axs[0].plot(x, y, color=c, linestyle=ls, marker=m, linewidth=lw, label=l)
+            if plt_type == SCATTER:
+                axs[0].scatter(x, y, color=c, linestyle=ls, marker=m, linewidth=lw, label=l)
+            else:
+                axs[0].plot(x, y, color=c, linestyle=ls, marker=m, linewidth=lw, label=l)
         else:
             fig, axs = plt.subplots(1)
-            axs.plot(x, y, color=c, linestyle=ls, marker=m, linewidth=lw, label=l)
+            if plt_type == SCATTER:
+                axs.scatter(x, y, color=c, linestyle=ls, marker=m, linewidth=lw, label=l)
+            else:
+                axs.plot(x, y, color=c, linestyle=ls, marker=m, linewidth=lw, label=l)
 
         # only if subplots exists
         for i in range(len(subplots)):
@@ -42,12 +49,11 @@ class SimplePlot:
                 x, y = self.get_xy(subplot_data)
                 c, l, ls, m, lw = self.get_styles(subplot_data)
                 subplot_type = self.variables[subplot_name][TYPE]
-                """if subplot_type !== main_plot_type => they are not compatible"""
-                if subplot_type != 'simple':
-                    raise Exception(
-                        f"The subplot `{subplots[i]}` must be of type: `{'simple'}` (not `{subplot_type}`)!")
                 # plot the subplot data
-                axs[i + 1].plot(x, y, color=c, linestyle=ls, marker=m, linewidth=lw, label=l)
+                if subplot_type == SCATTER:
+                    axs[i + 1].scatter(x, y, color=c, linestyle=ls, marker=m, linewidth=lw, label=l)
+                else:
+                    axs[i + 1].plot(x, y, color=c, linestyle=ls, marker=m, linewidth=lw, label=l)
                 plt.grid(True)
 
             # the subplot is not defined

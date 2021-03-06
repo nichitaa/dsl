@@ -36,6 +36,7 @@ type            : "simple"  -> simple
                 | "bar"     -> bar
                 | "pie"     -> pie
                 | "stack"   -> stack
+                | "scatter" -> scatter
 
 x_axis          : "x" "=" array
                 | "x" "=" NAME

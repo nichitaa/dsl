@@ -15,6 +15,7 @@ TYPES = 'types'
 TYPE = 'type'
 # variations
 SIMPLE = 'simple'
+SCATTER = 'scatter'
 # todo add more types
 
 # plot data

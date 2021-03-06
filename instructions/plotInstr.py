@@ -24,7 +24,7 @@ class PlotInstruction(SubplotInstruction):
         plot_type = plot_data[TYPE]
 
         # split damn plots by TYPE
-        if plot_type == SIMPLE:
+        if plot_type == SIMPLE or plot_type == SCATTER:
             # new simple plot object
             simple = SimplePlot(plot_name, plot_data, self.variables)
             # update plt. reference to it
