@@ -3,15 +3,21 @@ arr disArray = [0.5, 4, 10, 20]
 x_ax = input("array_x.txt", int)
 y_ax = input("array_y.txt", float)
 
+str labelVar = "text"
+str titleb = "string var title"
+str legendTitle = "string var legend"
+
 plot noSubplotsHere = {
     type = scatter,
     x = disArray,
     y = [0, 4, 10, 20],
     style = {
-        marker: "o"
+        marker: "o",
+        label: labelVar
     },
     legend = {
-        title: "No subplots here"
+        title: titleb,
+        legend_title: legendTitle
     },
     config = {
         save: "filename.png"
@@ -28,12 +34,14 @@ subplot subplot0 = {
     }
 }
 
+str default = "seaborn"
+
 plot withSubplot = {
     type = simple,
     x = disArray,
     y = [0, 4, 10, 20],
     style = {
-        theme: "seaborn"
+        theme: default
     },
     legend = {
         title: "Plot with subplot"

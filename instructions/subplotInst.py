@@ -6,6 +6,7 @@ class SubplotInstruction(Instruction, dict):
     def __init__(self, instruction_data, variables):
         super(SubplotInstruction, self).__init__(instruction_data, variables)
         self.styles = {}
+        self.variables = variables
         subplot_name = instruction_data[0].value
         subplot_value = instruction_data[1]
         subplot_params = subplot_value.children
@@ -48,8 +49,14 @@ class SubplotInstruction(Instruction, dict):
                 self.styles[COLOR] = c
 
             elif style_type == LABEL:
-                l = s.children[0].children[0].value
-                self.styles[LABEL] = str(l[1:-1])
+                tok = s.children[0].children[0].value
+                tok_type = s.children[0].children[0].type
+                if tok_type == NAME:
+                    str_var_name = s.children[0].children[0].value
+                    str_var_value = self.get_string_variable(str_var_name)
+                    self.styles[LABEL] = str_var_value
+                else:
+                    self.styles[LABEL] = str(tok[1:-1])
 
             elif style_type == LINE_STYLE:
                 ls = s.children[0].children[0].value
@@ -64,12 +71,19 @@ class SubplotInstruction(Instruction, dict):
                 self.styles[LINE_WIDTH] = int(lw)
 
             elif style_type == THEME:
-                t = s.children[0].children[0].value
+                tok = s.children[0].children[0].value
                 tok_type = s.children[0].children[0].type
-                print(tok_type)
-                # if tok type = NAME get variable from variables dict
-                # else
-                self.styles[THEME] = str(t[1:-1])
+                if tok_type == NAME:
+                    str_var_name = s.children[0].children[0].value
+                    str_var_value = self.get_string_variable(str_var_name)
+                    self.styles[THEME] = str_var_value
+                else:
+                    self.styles[THEME] = str(tok[1:-1])
             else:
                 return
 
+    def get_string_variable(self, name):
+        if name in self.variables:
+            return self.variables[name]
+        else:
+            raise Exception(f'undeclared variable name {name}')

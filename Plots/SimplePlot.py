@@ -91,7 +91,7 @@ class SimplePlot:
         return title, x_label, y_label, loc, shadow, legend_title, label_color
 
     def get_theme(self):
-        t = self.data.get(THEME, 'ggplot')
+        t = self.data[STYLES].get(THEME, 'ggplot')
         return t
 
     def get_styles(self, data):

@@ -5,6 +5,8 @@ ARR_ASSIGN = 'arr_assign'
 INPUT_ASSIGN = 'input_assign'
 STR_ASSIGN = 'str_assign'
 
+NAME = 'NAME'
+
 # var types
 INT = 'int'
 FLOAT = 'float'

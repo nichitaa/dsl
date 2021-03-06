@@ -15,7 +15,7 @@ class PlotInstruction(SubplotInstruction):
             self.plot_param(param.children, self.plot_name)
 
         variables[self.plot_name] = self
-        self.variables = variables
+        # self.variables = variables
 
     def execute(self):
         # get general plot data
@@ -72,8 +72,13 @@ class PlotInstruction(SubplotInstruction):
                 legend_dict[legend_param_type] = str(label_value[1:-1])
 
             elif legend_param_type == TITLE:
-                title = legend_param.children[0].children[0].value
-                legend_dict[TITLE] = str(title[1:-1])
+                tok = legend_param.children[0].children[0].value
+                tok_type = legend_param.children[0].children[0].type
+                if tok_type == NAME:
+                    str_var_value = self.get_string_variable(tok)
+                    legend_dict[TITLE] = str_var_value
+                else:
+                    legend_dict[TITLE] = str(tok[1:-1])
 
             elif legend_param_type == LOC:
                 loc = legend_param.children[0].children[0].value
@@ -84,8 +89,13 @@ class PlotInstruction(SubplotInstruction):
                 legend_dict[SHADOW] = bool(shadow)
 
             elif legend_param_type == LEGEND_TITLE:
-                legend_title = legend_param.children[0].children[0]
-                legend_dict[LEGEND_TITLE] = str(legend_title[1:-1])
+                tok = legend_param.children[0].children[0].value
+                tok_type = legend_param.children[0].children[0].type
+                if tok_type == NAME:
+                    str_var_value = self.get_string_variable(tok)
+                    legend_dict[LEGEND_TITLE] = str_var_value
+                else:
+                    legend_dict[LEGEND_TITLE] = str(tok[1:-1])
 
             elif legend_param_type == LEGEND_LABEL_COLOR:
                 legend_label_color = legend_param.children[0].children[0].data
@@ -93,3 +103,9 @@ class PlotInstruction(SubplotInstruction):
 
             else:
                 raise Exception(f"Not a valid legend argument! {legend_param_type}")
+
+    def get_string_variable(self, name):
+        if name in self.variables:
+            return self.variables[name]
+        else:
+            raise Exception(f'undeclared variable name {name}')
