@@ -1,11 +1,11 @@
 from pglParser import Parser
 
 
-def run(pgl_filename, grammar_filename):
-    parser = Parser(pgl_filename, grammar_filename)
+def run(pgl_filename):
+    parser = Parser(pgl_filename)
     parser.makeDot()
     parser.run()
 
 
 if __name__ == '__main__':
-    run("demo/simple.pgl", "grammar.lark")
+    run("demo/simple.pgl")

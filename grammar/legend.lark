@@ -1,0 +1,27 @@
+
+legend          : "legend" "=" "{" legend_param ("," legend_param)* "}"
+legend_param    : x_label?
+                | y_label?
+                | title?
+                | loc?
+                | shadow?
+                | legend_label_color?
+                | legend_title?
+
+legend_label_color : "label_color" ":" color_enum
+
+legend_title    : "legend_title" ":" STRING
+                | "legend_title" ":" NAME
+
+x_label         : "x" ":" STRING
+                | "x" ":" NAME
+
+y_label         : "y" ":" STRING
+                | "y" ":" NAME
+
+title           : "title" ":" STRING
+                | "title" ":" NAME
+
+loc             : "loc" ":" STRING
+
+shadow          : "shadow" ":" bool

@@ -1,0 +1,32 @@
+
+plot_assign     : "plot" NAME "=" plot_params
+subplot_assign  : "subplot" NAME "=" subplot_params
+
+subplot_params  : "{" subplot_param ("," subplot_param)* "}"
+subplot_param   : types
+                | x_axis
+                | y_axis
+                | plot_styles
+
+plot_params     : "{" plot_param ("," plot_param)* "}"
+plot_param      : types
+                | x_axis
+                | y_axis
+                | plot_styles?
+                | legend?
+                | config?
+                | subplots?
+
+types           : "type" "=" type
+type            : "simple"  -> simple
+                | "bar"     -> bar
+                | "pie"     -> pie
+                | "stack"   -> stack
+                | "scatter" -> scatter
+
+x_axis          : "x" "=" array
+                | "x" "=" NAME
+y_axis          : "y" "=" array
+                | "y" "=" NAME
+
+subplots        : "subplots" "=" "{" NAME ("," NAME)* "}"

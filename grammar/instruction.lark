@@ -1,0 +1,7 @@
+
+start           : instruction+
+instruction     : subplot_assign
+                | plot_assign
+                | arr_assign
+                | input_assign
+                | str_assign

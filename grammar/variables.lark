@@ -1,0 +1,18 @@
+input_assign    : NAME "=" "input" "("  STRING ["," var_type] ")"
+
+var_type        : "int" -> int
+                | "string" -> string
+                | "float" -> float
+                | "bool" -> bool
+
+arr_assign      : "arr" NAME "=" array
+str_assign      : "str" NAME "=" STRING
+
+array  : "[" [NUMBER ("," NUMBER)*] "]"
+       | "[" [STRING ("," STRING)*] "]"
+
+bool : "false"                  -> false
+     | "true"                   -> true
+     | "netocina"
+
+

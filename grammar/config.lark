@@ -1,0 +1,15 @@
+
+config          : "config" "=" "{" config_param ("," config_param)* "}"
+config_param    : grid?
+                | tight_layout?
+                | save?
+
+tight_layout    : "tight_layout" ":" bool
+
+grid            : "grid" ":" bool
+
+save            : "save" ":" STRING
+
+color_enum      : "red"         -> red
+                | "green"       -> green
+                | "blue"        -> blue

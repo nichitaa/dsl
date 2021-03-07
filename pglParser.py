@@ -19,10 +19,22 @@ class TreeToDSL(Transformer):
     false = lambda self, _: False
 
 
+def get_grammar():
+    instructions = open('grammar/instruction.lark', 'r').read()
+    variables = open('grammar/variables.lark', 'r').read()
+    plot = open('./grammar/plot.lark', 'r').read()
+    styles = open('./grammar/styles.lark', 'r').read()
+    legend = open('./grammar/legend.lark', 'r').read()
+    config = open('./grammar/config.lark', 'r').read()
+    common = open('grammar/common.lark', 'r').read()
+    grammar = instructions + variables + plot + styles + legend + config + common
+    return grammar
+
+
 class Parser:
-    def __init__(self, pgl_filename, grammar_filename):
+    def __init__(self, pgl_filename):
         self._code = open(pgl_filename, "r").read()
-        self._grammar = open(grammar_filename, "r").read()
+        self._grammar = get_grammar()
 
         self.parser = Lark(self._grammar,
                            parser='lalr',
