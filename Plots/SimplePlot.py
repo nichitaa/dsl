@@ -16,7 +16,7 @@ class SimplePlot:
         x, y = self.get_xy(self.data)
 
         # styles
-        c, l, ls, m, lw = self.get_styles(self.data)
+        c, l, ls, m, lw, alpha, size = self.get_styles(self.data)
         theme = self.get_theme()
         plot_title, x_label, y_label, loc, shadow, legend_title, legend_label_color = self.get_legend()
 
@@ -30,15 +30,15 @@ class SimplePlot:
         if len(subplots) > 0:
             fig, axs = plt.subplots(len(subplots) + 1)
             if plt_type == SCATTER:
-                axs[0].scatter(x, y, color=c, linestyle=ls, marker=m, linewidth=lw, label=l)
+                axs[0].scatter(x, y, color=c, linestyle=ls, marker=m, linewidth=lw, label=l, alpha=alpha, s=size)
             else:
-                axs[0].plot(x, y, color=c, linestyle=ls, marker=m, linewidth=lw, label=l)
+                axs[0].plot(x, y, color=c, linestyle=ls, marker=m, linewidth=lw, label=l, alpha=alpha)
         else:
             fig, axs = plt.subplots(1)
             if plt_type == SCATTER:
-                axs.scatter(x, y, color=c, linestyle=ls, marker=m, linewidth=lw, label=l)
+                axs.scatter(x, y, color=c, linestyle=ls, marker=m, linewidth=lw, label=l, alpha=alpha, s=size)
             else:
-                axs.plot(x, y, color=c, linestyle=ls, marker=m, linewidth=lw, label=l)
+                axs.plot(x, y, color=c, linestyle=ls, marker=m, linewidth=lw, label=l, alpha=alpha)
 
         # only if subplots exists
         for i in range(len(subplots)):
@@ -47,13 +47,13 @@ class SimplePlot:
                 subplot_data = self.variables[subplots[i]]
                 subplot_name = subplots[i]
                 x, y = self.get_xy(subplot_data)
-                c, l, ls, m, lw = self.get_styles(subplot_data)
+                c, l, ls, m, lw, alpha, size = self.get_styles(subplot_data)
                 subplot_type = self.variables[subplot_name][TYPE]
                 # plot the subplot data
                 if subplot_type == SCATTER:
-                    axs[i + 1].scatter(x, y, color=c, linestyle=ls, marker=m, linewidth=lw, label=l)
+                    axs[i + 1].scatter(x, y, color=c, linestyle=ls, marker=m, linewidth=lw, label=l, alpha=alpha, s=size)
                 else:
-                    axs[i + 1].plot(x, y, color=c, linestyle=ls, marker=m, linewidth=lw, label=l)
+                    axs[i + 1].plot(x, y, color=c, linestyle=ls, marker=m, linewidth=lw, label=l, alpha=alpha)
                 plt.grid(True)
 
             # the subplot is not defined
@@ -100,7 +100,9 @@ class SimplePlot:
         ls = data[STYLES].get(LINE_STYLE, '--')
         m = data[STYLES].get(MARKER, '*')
         lw = data[STYLES].get(LINE_WIDTH, 1)
-        return c, l, ls, m, lw
+        alpha = data[STYLES].get(ALPHA, 1)
+        size = data[STYLES].get(SIZE, 10)
+        return c, l, ls, m, lw, alpha, size
 
     def get_xy(self, data):
         x, y = [], []

@@ -13,7 +13,8 @@ plot noSubplotsHere = {
     y = [0, 4, 10, 20],
     style = {
         marker: "o",
-        label: labelVar
+        label: labelVar,
+        size: 20
     },
     legend = {
         title: titleb,
@@ -30,7 +31,8 @@ subplot subplot0 = {
     y = y_ax,
     # will get default styles
     style = {
-        line_width: 1
+        line_width: 1,
+        alpha: 0.2
     }
 }
 
@@ -41,7 +43,8 @@ plot withSubplot = {
     x = disArray,
     y = [0, 4, 10, 20],
     style = {
-        theme: default
+        theme: default,
+        alpha: 0.1
     },
     legend = {
         title: "Plot with subplot"

@@ -6,11 +6,19 @@ plot_style      : theme?
                 | marker?
                 | line_width?
                 | label?
+                | size?
+                | alpha?
 
 theme           : "theme" ":" STRING
                 | "theme" ":" NAME
 
 color           : "color" ":" color_enum
+                | "color" ":" array
+                | "color" ":" NAME
+
+size            : "size" ":" NUMBER
+
+alpha           : "alpha" ":" NUMBER
 
 line_style      : "line_style" ":" STRING
 

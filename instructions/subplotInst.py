@@ -79,6 +79,15 @@ class SubplotInstruction(Instruction, dict):
                     self.styles[THEME] = str_var_value
                 else:
                     self.styles[THEME] = str(tok[1:-1])
+
+            elif style_type == ALPHA:
+                tok = s.children[0].children[0].value
+                self.styles[ALPHA] = float(tok)
+
+            elif style_type == SIZE:
+                tok = s.children[0].children[0].value
+                self.styles[SIZE] = float(tok)
+
             else:
                 return
 

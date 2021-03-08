@@ -38,6 +38,8 @@ LABEL = 'label'
 LINE_STYLE = 'line_style'
 MARKER = 'marker'
 LINE_WIDTH = 'line_width'
+ALPHA = 'alpha'
+SIZE = 'size'
 
 # legend
 LEGEND = 'legend'
