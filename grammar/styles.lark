@@ -8,6 +8,14 @@ plot_style      : theme?
                 | label?
                 | size?
                 | alpha?
+                | bins?
+                | orientation?
+
+// HISTOGRAM
+bins            : "bins" ":" NUMBER
+orientation     : "orientation" ":" orientations
+orientations    : "horizontal" -> horizontal
+                | "vertical"   -> vertical
 
 theme           : "theme" ":" STRING
                 | "theme" ":" NAME

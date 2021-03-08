@@ -19,11 +19,13 @@ TYPE = 'type'
 # variations
 SIMPLE = 'simple'
 SCATTER = 'scatter'
+HISTOGRAM = 'histogram'
 # todo add more types
 
 # plot data
 X_AXIS = 'x_axis'
 Y_AXIS = 'y_axis'
+HIST_DATA = 'hist_data'
 
 # subplots
 SUBPLOTS = 'subplots'
@@ -40,6 +42,8 @@ MARKER = 'marker'
 LINE_WIDTH = 'line_width'
 ALPHA = 'alpha'
 SIZE = 'size'
+ORIENTATION = 'orientation'
+BINS = 'bins'
 
 # legend
 LEGEND = 'legend'

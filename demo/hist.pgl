@@ -1,0 +1,37 @@
+# comment
+arr x2 = [9,7,6,5,4,3]
+arr x1 = [1,2,3,4,5,6]
+
+subplot hist_subplot = {
+    type = histogram,
+    data = [x1, x2],
+    style = {
+        theme: "ggplot",
+        orientation: vertical,
+        bins: 30
+    }
+}
+
+plot hist = {
+    type = histogram,
+    data = [x1, x2],
+    style = {
+        theme: "seaborn",
+        orientation: horizontal,
+        bins: 30
+    },
+    legend = {
+        title: "title",
+        x: "x label",
+        y: "y label",
+        title: "Histogram",
+        legend_title: "short description",
+        label_color: red,
+        loc: "upper left",
+        shadow: true
+    },
+    subplots = {
+        hist_subplot
+    }
+}
+

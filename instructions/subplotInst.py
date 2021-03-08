@@ -36,8 +36,24 @@ class SubplotInstruction(Instruction, dict):
         elif param_type == PLOT_STYLES:
             styles = values
             self.set_styles(styles, name)
+
+        elif param_type == HIST_DATA:
+            self.set_hist_data(values[0])
         else:
             return
+
+    def set_hist_data(self, data):
+        # print("data: ", data)
+        self[HIST_DATA] = []
+        for i in range(len(data)):
+            tok_type = data[i].type
+            tok_value = data[i].value
+            if tok_type == NAME:
+                arr_var_name = tok_value
+                arr_var_value = self.get_variable(arr_var_name)
+                self[HIST_DATA].append(arr_var_value)
+
+        # print("self: ", self)
 
     def set_styles(self, styles, name):
         super().__setitem__(STYLES, {})
@@ -53,7 +69,7 @@ class SubplotInstruction(Instruction, dict):
                 tok_type = s.children[0].children[0].type
                 if tok_type == NAME:
                     str_var_name = s.children[0].children[0].value
-                    str_var_value = self.get_string_variable(str_var_name)
+                    str_var_value = self.get_variable(str_var_name)
                     self.styles[LABEL] = str_var_value
                 else:
                     self.styles[LABEL] = str(tok[1:-1])
@@ -75,7 +91,7 @@ class SubplotInstruction(Instruction, dict):
                 tok_type = s.children[0].children[0].type
                 if tok_type == NAME:
                     str_var_name = s.children[0].children[0].value
-                    str_var_value = self.get_string_variable(str_var_name)
+                    str_var_value = self.get_variable(str_var_name)
                     self.styles[THEME] = str_var_value
                 else:
                     self.styles[THEME] = str(tok[1:-1])
@@ -88,10 +104,20 @@ class SubplotInstruction(Instruction, dict):
                 tok = s.children[0].children[0].value
                 self.styles[SIZE] = float(tok)
 
+            elif style_type == ORIENTATION:
+                tok = s.children[0].children[0].data
+                self.styles[ORIENTATION] = str(tok)
+                # print(tok)
+
+            elif style_type == BINS:
+                tok = s.children[0].children[0].value
+                self.styles[BINS] = int(tok)
+                # print(tok)
+
             else:
                 return
 
-    def get_string_variable(self, name):
+    def get_variable(self, name):
         if name in self.variables:
             return self.variables[name]
         else:

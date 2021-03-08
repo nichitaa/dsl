@@ -1,6 +1,7 @@
 from instructions.subplotInst import SubplotInstruction
 import json
 from Plots.SimplePlot import SimplePlot
+from Plots.Histogram import Histogram
 from consts.consts import *
 
 
@@ -33,6 +34,9 @@ class PlotInstruction(SubplotInstruction):
             # SimplePlot(plot_name, plot_data, self.variables)
             # or can be even added to an array to keep track of them
             # but I dont see this need for now
+        elif plot_type == HISTOGRAM:
+            hist = Histogram(plot_name, plot_data, self.variables)
+            hist.show()
 
     def plot_param(self, p, name):
         param_type = p[0].data
@@ -75,7 +79,7 @@ class PlotInstruction(SubplotInstruction):
                 tok = legend_param.children[0].children[0].value
                 tok_type = legend_param.children[0].children[0].type
                 if tok_type == NAME:
-                    str_var_value = self.get_string_variable(tok)
+                    str_var_value = self.get_variable(tok)
                     legend_dict[TITLE] = str_var_value
                 else:
                     legend_dict[TITLE] = str(tok[1:-1])
@@ -92,7 +96,7 @@ class PlotInstruction(SubplotInstruction):
                 tok = legend_param.children[0].children[0].value
                 tok_type = legend_param.children[0].children[0].type
                 if tok_type == NAME:
-                    str_var_value = self.get_string_variable(tok)
+                    str_var_value = self.get_variable(tok)
                     legend_dict[LEGEND_TITLE] = str_var_value
                 else:
                     legend_dict[LEGEND_TITLE] = str(tok[1:-1])
@@ -104,7 +108,7 @@ class PlotInstruction(SubplotInstruction):
             else:
                 raise Exception(f"Not a valid legend argument! {legend_param_type}")
 
-    def get_string_variable(self, name):
+    def get_variable(self, name):
         if name in self.variables:
             return self.variables[name]
         else:

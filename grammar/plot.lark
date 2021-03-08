@@ -4,18 +4,20 @@ subplot_assign  : "subplot" NAME "=" subplot_params
 
 subplot_params  : "{" subplot_param ("," subplot_param)* "}"
 subplot_param   : types
-                | x_axis
-                | y_axis
-                | plot_styles
+                | x_axis?
+                | y_axis?
+                | plot_styles?
+                | hist_data?
 
 plot_params     : "{" plot_param ("," plot_param)* "}"
 plot_param      : types
-                | x_axis
-                | y_axis
+                | x_axis?
+                | y_axis?
                 | plot_styles?
                 | legend?
                 | config?
                 | subplots?
+                | hist_data?
 
 types           : "type" "=" type
 type            : "simple"  -> simple
@@ -23,10 +25,12 @@ type            : "simple"  -> simple
                 | "pie"     -> pie
                 | "stack"   -> stack
                 | "scatter" -> scatter
+                | "histogram" -> histogram
 
 x_axis          : "x" "=" array
                 | "x" "=" NAME
 y_axis          : "y" "=" array
                 | "y" "=" NAME
+hist_data       : "data" "=" array
 
 subplots        : "subplots" "=" "{" NAME ("," NAME)* "}"

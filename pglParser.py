@@ -83,5 +83,5 @@ class Parser:
             instruction.execute()
 
         plt.tight_layout()
-        plt.show()  # uncomment this to see the plots
+        # plt.show()  # uncomment this to see the plots
         # print(json.dumps(self.plt_vars, indent=4))

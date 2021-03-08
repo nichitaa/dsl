@@ -10,6 +10,7 @@ str_assign      : "str" NAME "=" STRING
 
 array  : "[" [NUMBER ("," NUMBER)*] "]"
        | "[" [STRING ("," STRING)*] "]"
+       | "[" [NAME ("," NAME)*] "]"
 
 bool : "false"                  -> false
      | "true"                   -> true
