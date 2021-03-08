@@ -28,7 +28,7 @@ class Histogram:
             fig, axs = plt.subplots(len(subplots) + 1)
             axs[0].hist(hist_data, **args)
         else:
-            fix, axs = plt.subplots(1)
+            fig, axs = plt.subplots(1)
             axs.hist(hist_data, **args)
 
         # only if subplots exists
