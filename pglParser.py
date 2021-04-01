@@ -49,6 +49,9 @@ class Parser:
         self.plt_vars = {}  # plots data here
         self.variables = {}  # variables like arrays and strings here
         self.instructions = []
+        self.instruction_dict = {SUBPLOT_ASSIGN: SubplotInstruction, PLOT_ASSIGN: PlotInstruction,
+                                 ARR_ASSIGN: ArrayInstruction, INPUT_ASSIGN: FileInputInstruction,
+                                 STR_ASSIGN: StringInstruction, PRINT_ASSIGN: PrintInstruction}
 
     def makeDot(self):
         tree.pydot__tree_to_dot(self.parser.parse(self._code), os.path.join('./parseTree/', "parseTree.dot"))
@@ -56,24 +59,8 @@ class Parser:
     def define_instruction(self, instruction_tree):
         instruction = instruction_tree.children[0].data
         children = instruction_tree.children[0].children
-
-        if instruction == SUBPLOT_ASSIGN:
-            self.instructions.append(SubplotInstruction(children, self.variables))
-
-        elif instruction == PLOT_ASSIGN:
-            self.instructions.append(PlotInstruction(children, self.variables))
-
-        elif instruction == ARR_ASSIGN:
-            self.instructions.append(ArrayInstruction(children, self.variables))
-
-        elif instruction == INPUT_ASSIGN:
-            self.instructions.append(FileInputInstruction(children, self.variables))
-
-        elif instruction == STR_ASSIGN:
-            self.instructions.append(StringInstruction(children, self.variables))
-
-        elif instruction == PRINT_ASSIGN:
-            self.instructions.append(PrintInstruction(children, self.variables))
+        if instruction in self.instruction_dict:
+            self.instructions.append(self.instruction_dict[instruction](children, self.variables))
 
         # todo: handle errors
         else:
