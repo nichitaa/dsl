@@ -6,7 +6,13 @@ class ArrayInstruction(Instruction):
         super().__init__(instruction_data, variables)
         arr_name = instruction_data[0].value
         arr_value = instruction_data[1]
-        variables[arr_name] = arr_value
+        arr = []
+        for value in arr_value:
+            if "\"" in value or "\'" in value:
+                arr.append(str(value))
+            else:
+                arr.append(float(value))
+        variables[arr_name] = arr
 
     def execute(self):
         return
