@@ -1,7 +1,11 @@
 # comment
 arr disArray = [0.5, 4, 10, 20]
 arr empatIArray = []
-
+str kek = "hapciu"
+print("empatIArray")
+print(empatIArray)
+print(disArray)
+print(kek)
 x_ax = input("array_x.txt", int)
 y_ax = input("array_y.txt", float)
 
@@ -64,3 +68,4 @@ plot platina0 = {
         subplot0
     }
 }
+print(subplot0)

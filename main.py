@@ -9,7 +9,7 @@ def run(pgl_filename):
 
 if __name__ == '__main__':
     # run("demo/hist.pgl")
-     run("demo/simple.pgl")
-    #run("demo/demo.pgl")
+    # run("demo/simple.pgl")
+    run("demo/demo.pgl")
 
 

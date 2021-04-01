@@ -4,6 +4,7 @@ PLOT_ASSIGN = 'plot_assign'
 ARR_ASSIGN = 'arr_assign'
 INPUT_ASSIGN = 'input_assign'
 STR_ASSIGN = 'str_assign'
+PRINT_INSTRUCTION = 'print_instruction'
 
 NAME = 'NAME'
 
