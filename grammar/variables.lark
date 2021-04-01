@@ -1,6 +1,6 @@
 input_assign    : NAME "=" "input" "("  STRING ["," var_type] ")"
-print_instruction    : "print" "(" STRING ")"
-                     | "print" "(" NAME ")"
+print_assign    : "print" "(" STRING ")"
+                | "print" "(" NAME ")"
 
 var_type        : "int" -> int
                 | "string" -> string

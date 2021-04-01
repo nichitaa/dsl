@@ -12,6 +12,7 @@ from instructions.subplotInst import SubplotInstruction
 from instructions.stringInstr import StringInstruction
 from instructions.printInstruction import PrintInstruction
 
+
 class TreeToDSL(Transformer):
     array = list
     number = v_args(inline=True)(float)
@@ -71,8 +72,8 @@ class Parser:
         elif instruction == STR_ASSIGN:
             self.instructions.append(StringInstruction(children, self.variables))
 
-        elif instruction == PRINT_INSTRUCTION:
-            self.instructions.append(PrintInstruction(children,self.variables))
+        elif instruction == PRINT_ASSIGN:
+            self.instructions.append(PrintInstruction(children, self.variables))
 
         # todo: handle errors
         else:

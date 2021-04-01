@@ -5,4 +5,4 @@ instruction     : subplot_assign
                 | arr_assign
                 | input_assign
                 | str_assign
-                | print_instruction
+                | print_assign
