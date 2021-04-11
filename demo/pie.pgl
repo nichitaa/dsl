@@ -1,0 +1,25 @@
+# comment
+arr labels = ["one", "two", "three"]
+arr divs = [33, 33, 33]
+str autopct = "%1.2f%%"
+
+plot hist = {
+    type = pie,
+    pie_labels = labels,
+    pie_divisions = divs,
+    pie_autopct = autopct,
+    style = {
+        theme: "seaborn"
+    },
+    legend = {
+        title: "title",
+        x: "x label",
+        y: "y label",
+        title: "Histogram",
+        legend_title: "short description",
+        label_color: red,
+        loc: "upper left",
+        shadow: true
+    }
+}
+
