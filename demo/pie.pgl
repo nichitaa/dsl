@@ -1,12 +1,15 @@
-# comment
+
 arr labels = ["one", "two", "three"]
 arr divs = [33, 33, 33]
 str autopct = "%1.2f%%"
 
-plot hist = {
+plot pie_plot_sample = {
     type = pie,
+    # todo: handle this (current only parsing a variable reference)
+    # pie_labels = ["labels", "labels"],
     pie_labels = labels,
     pie_divisions = divs,
+    #pie_autopct = "%1.2f%%",
     pie_autopct = autopct,
     style = {
         theme: "seaborn"

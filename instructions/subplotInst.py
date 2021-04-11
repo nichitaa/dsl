@@ -33,17 +33,57 @@ class SubplotInstruction(Instruction, dict):
         elif param_type == Y_AXIS:
             data = values[0]
             super().__setitem__(Y_AXIS, data)
+
         elif param_type == PLOT_STYLES:
             styles = values
             self.set_styles(styles, name)
 
         elif param_type == HIST_DATA:
             self.set_hist_data(values[0])
+
+        elif param_type == PIE_LABELS:
+            self.set_pie_labels(values[0])
+
+        elif param_type == PIE_DIVISIONS:
+            self.set_pie_divisions(values[0])
+
+        elif param_type == PIE_AUTOPCT:
+            self.set_pie_autopct(values[0])
+
         else:
             return
 
+    def set_pie_autopct(self, data):
+        if data.type == 'STRING':
+            self[PIE_AUTOPCT] = data[1:-1]
+        elif data.type == NAME:
+            self[PIE_AUTOPCT] = self.get_variable(data.value)
+
+    def set_pie_divisions(self, data):
+        self[PIE_DIVISIONS] = []
+        # todo: handle array of strings
+        if type(data) == list:
+            print("data: ", data)
+
+        # variable reference
+        else:
+            arr_var_name = data.value
+            arr_var_value = self.get_variable(arr_var_name)
+            self[PIE_DIVISIONS] = arr_var_value
+
+    def set_pie_labels(self, data):
+        self[PIE_LABELS] = []
+        # todo: handle array of strings
+        if type(data) == list:
+            print("data: ", data)
+
+        # variable reference
+        else:
+            arr_var_name = data.value
+            arr_var_value = self.get_variable(arr_var_name)
+            self[PIE_LABELS] = arr_var_value
+
     def set_hist_data(self, data):
-        # print("data: ", data)
         self[HIST_DATA] = []
         for i in range(len(data)):
             tok_type = data[i].type
@@ -52,8 +92,6 @@ class SubplotInstruction(Instruction, dict):
                 arr_var_name = tok_value
                 arr_var_value = self.get_variable(arr_var_name)
                 self[HIST_DATA].append(arr_var_value)
-
-        # print("self: ", self)
 
     def set_styles(self, styles, name):
         super().__setitem__(STYLES, {})
