@@ -9,7 +9,7 @@ class ArrayInstruction(Instruction):
         arr = []
         for value in arr_value:
             if "\"" in value or "\'" in value:
-                arr.append(str(value))
+                arr.append(str(value[1:-1]))
             else:
                 arr.append(float(value))
         variables[arr_name] = arr

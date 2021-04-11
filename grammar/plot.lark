@@ -8,6 +8,9 @@ subplot_param   : types
                 | y_axis?
                 | plot_styles?
                 | hist_data?
+                | pie_labels?
+                | pie_divisions?
+                | pie_autopct?
 
 plot_params     : "{" plot_param ("," plot_param)* "}"
 plot_param      : types
@@ -18,6 +21,9 @@ plot_param      : types
                 | config?
                 | subplots?
                 | hist_data?
+                | pie_labels?
+                | pie_divisions?
+                | pie_autopct?
 
 types           : "type" "=" type
 type            : "simple"  -> simple
@@ -29,8 +35,19 @@ type            : "simple"  -> simple
 
 x_axis          : "x" "=" array
                 | "x" "=" NAME
+
 y_axis          : "y" "=" array
                 | "y" "=" NAME
+
 hist_data       : "data" "=" array
+
+pie_labels      : "pie_labels" "=" array
+                | "pie_labels" "=" NAME
+
+pie_divisions   : "pie_divisions" "=" array
+                | "pie_divisions" "=" NAME
+
+pie_autopct     : "pie_autopct" "=" STRING
+                | "pie_autopct" "=" NAME
 
 subplots        : "subplots" "=" "{" NAME ("," NAME)* "}"
