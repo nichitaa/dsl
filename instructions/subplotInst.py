@@ -61,10 +61,9 @@ class SubplotInstruction(Instruction, dict):
 
     def set_pie_divisions(self, data):
         self[PIE_DIVISIONS] = []
-        # todo: handle array of strings
         if type(data) == list:
-            print("data: ", data)
-
+            for i in data:
+                self[PIE_DIVISIONS].append(float(i.value))
         # variable reference
         else:
             arr_var_name = data.value
@@ -73,10 +72,9 @@ class SubplotInstruction(Instruction, dict):
 
     def set_pie_labels(self, data):
         self[PIE_LABELS] = []
-        # todo: handle array of strings
         if type(data) == list:
-            print("data: ", data)
-
+            for i in data:
+                self[PIE_LABELS].append(str(i[1:-1]))
         # variable reference
         else:
             arr_var_name = data.value

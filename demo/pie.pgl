@@ -1,15 +1,26 @@
 
 arr labels = ["one", "two", "three"]
-arr divs = [33, 33, 33]
+arr divs_arr = [33, 33, 33]
 str autopct = "%1.2f%%"
+
+subplot pie_subplot = {
+    type = pie,
+    pie_labels = ["one", "two", "three"],
+    pie_divisions = [10, 50, 40],
+    # pie_autopct = "%1.2f%%",
+    pie_autopct = autopct,
+    style = {
+        theme: "seaborn"
+    }
+}
 
 plot pie_plot_sample = {
     type = pie,
-    # todo: handle this (current only parsing a variable reference)
-    # pie_labels = ["labels", "labels"],
-    pie_labels = labels,
-    pie_divisions = divs,
-    #pie_autopct = "%1.2f%%",
+    pie_labels = ["one", "five", "ten"],
+    # pie_labels = labels,
+    pie_divisions = divs_arr,
+    # pie_divisions = [13, 33, 33],
+    # pie_autopct = "%1.2f%%",
     pie_autopct = autopct,
     style = {
         theme: "seaborn"
@@ -23,6 +34,9 @@ plot pie_plot_sample = {
         label_color: red,
         loc: "upper left",
         shadow: true
+    },
+    subplots = {
+        pie_subplot
     }
 }
 
