@@ -21,12 +21,16 @@ TYPE = 'type'
 SIMPLE = 'simple'
 SCATTER = 'scatter'
 HISTOGRAM = 'histogram'
+PIE = 'pie'
 # todo add more types
 
 # plot data
 X_AXIS = 'x_axis'
 Y_AXIS = 'y_axis'
 HIST_DATA = 'hist_data'
+PIE_LABELS = 'pie_labels'
+PIE_DIVISIONS = 'pie_divisions'
+PIE_AUTOPCT = 'pie_autopct'
 
 # subplots
 SUBPLOTS = 'subplots'
