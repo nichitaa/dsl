@@ -50,8 +50,41 @@ class SubplotInstruction(Instruction, dict):
         elif param_type == PIE_AUTOPCT:
             self.set_pie_autopct(values[0])
 
+        elif param_type == DATE_ORIGIN:
+            self.set_date_arr_var(values[0], DATE_ORIGIN)
+
+        elif param_type == DATE_DATA:
+            self.set_date_arr_var(values[0], DATE_DATA)
+
+        elif param_type == DATE_STRPTIME:
+            self.set_date_str_var(values[0], DATE_STRPTIME)
+
+        elif param_type == DATE_FORMATTER:
+            self.set_date_str_var(values[0], DATE_FORMATTER)
+
         else:
             return
+
+    def set_date_str_var(self, data, name):
+        tok = data
+        tok_type = data.type
+        if tok_type == NAME:
+            str_var_name = data.value
+            str_var_value = self.get_variable(str_var_name)
+            self[name] = str_var_value
+        else:
+            self[name] = str(tok[1:-1])
+
+    def set_date_arr_var(self, data, name):
+        self[name] = []
+        if type(data) == list:
+            for i in data:
+                self[name].append(str(i[1:-1]))
+        # variable reference
+        else:
+            arr_var_name = data.value
+            arr_var_value = self.get_variable(arr_var_name)
+            self[name] = arr_var_value
 
     def set_pie_autopct(self, data):
         if data.type == 'STRING':

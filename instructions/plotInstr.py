@@ -3,6 +3,7 @@ import json
 from Plots.SimplePlot import SimplePlot
 from Plots.Histogram import Histogram
 from Plots.Pie import Pie
+from Plots.Date import Date
 from consts.consts import *
 
 
@@ -42,6 +43,10 @@ class PlotInstruction(SubplotInstruction):
         elif plot_type == PIE:
             pie = Pie(plot_name, plot_data, self.variables)
             pie.show()
+
+        elif plot_type == DATE:
+            date = Date(plot_name, plot_data, self.variables)
+            date.show()
 
     def plot_param(self, p, name):
         param_type = p[0].data

@@ -1,0 +1,31 @@
+
+arr thisIsOrigin = ["2020-02-05 17:17:55",
+              "2020-02-05 17:17:51",
+              "2020-02-05 17:17:49"]
+
+str strptime_var = "%Y-%m-%d %H:%M:%S"
+str formatter_var = "%H:%M:%S"
+
+arr gg = ["35.764299", "20.3008", "36.94704"]
+
+plot date_plot_sample = {
+    type = date,
+    date_origin = thisIsOrigin,
+    date_data = gg,
+    date_strptime = strptime_var,
+    date_formatter = formatter_var,
+    style = {
+        theme: "seaborn"
+    },
+    legend = {
+        title: "title",
+        x: "x label",
+        y: "y label",
+        title: "Date Plot",
+        legend_title: "short description",
+        label_color: red,
+        loc: "upper left",
+        shadow: true
+    }
+}
+
