@@ -22,6 +22,7 @@ SIMPLE = 'simple'
 SCATTER = 'scatter'
 HISTOGRAM = 'histogram'
 PIE = 'pie'
+DATE = 'date'
 # todo add more types
 
 # plot data
@@ -31,6 +32,10 @@ HIST_DATA = 'hist_data'
 PIE_LABELS = 'pie_labels'
 PIE_DIVISIONS = 'pie_divisions'
 PIE_AUTOPCT = 'pie_autopct'
+DATE_ORIGIN = 'date_origin'
+DATE_DATA = 'date_data'
+DATE_STRPTIME = 'date_strptime'
+DATE_FORMATTER = 'date_formatter'
 
 # subplots
 SUBPLOTS = 'subplots'

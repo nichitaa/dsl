@@ -11,6 +11,10 @@ subplot_param   : types
                 | pie_labels?
                 | pie_divisions?
                 | pie_autopct?
+                | date_origin?
+                | date_data?
+                | date_strptime?
+                | date_formatter?
 
 plot_params     : "{" plot_param ("," plot_param)* "}"
 plot_param      : types
@@ -24,6 +28,10 @@ plot_param      : types
                 | pie_labels?
                 | pie_divisions?
                 | pie_autopct?
+                | date_origin?
+                | date_data?
+                | date_strptime?
+                | date_formatter?
 
 types           : "type" "=" type
 type            : "simple"  -> simple
@@ -32,6 +40,7 @@ type            : "simple"  -> simple
                 | "stack"   -> stack
                 | "scatter" -> scatter
                 | "histogram" -> histogram
+                | "date"    -> date
 
 x_axis          : "x" "=" array
                 | "x" "=" NAME
@@ -49,5 +58,19 @@ pie_divisions   : "pie_divisions" "=" array
 
 pie_autopct     : "pie_autopct" "=" STRING
                 | "pie_autopct" "=" NAME
+
+
+date_origin     : "date_origin" "=" array
+                | "date_origin" "=" NAME
+
+date_data       : "date_data" "=" array
+                | "date_data" "=" NAME
+
+date_strptime   : "date_strptime" "=" STRING
+                | "date_strptime" "=" NAME
+
+date_formatter  : "date_formatter" "=" STRING
+                | "date_formatter" "=" NAME
+
 
 subplots        : "subplots" "=" "{" NAME ("," NAME)* "}"
