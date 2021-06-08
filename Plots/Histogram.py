@@ -21,7 +21,7 @@ class Histogram:
         # subplots
         subplots = self.get_subplots()
 
-        args = dict(bins=bins, orientation=orientation, alpha=alpha)
+        args = dict(bins=bins, orientation=orientation, alpha=alpha, histtype='stepfilled')
 
         # create new figure
         if len(subplots) > 0:
@@ -39,7 +39,7 @@ class Histogram:
                 subplot_data = self.variables[subplot_name]
                 hist_subplot_data = self.get_hist_data(subplot_data)
                 subplot_alpha, subplot_bins, subplot_orientation = self.get_styles(subplot_data)
-                subplot_args = dict(bins=subplot_bins, orientation=subplot_orientation, alpha=subplot_alpha)
+                subplot_args = dict(bins=subplot_bins, orientation=subplot_orientation, alpha=subplot_alpha, histtype='stepfilled')
                 axs[i + 1].hist(hist_subplot_data, **subplot_args)
                 plt.grid(True)
 
